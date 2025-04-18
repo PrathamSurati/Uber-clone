@@ -1,20 +1,20 @@
-# User Registration API Documentation
-
-## Endpoint
-
-`POST /users/register`
+# User API Documentation
 
 ---
 
-## Description
+## Register User
 
-This endpoint allows a new user to register by providing their first name, last name, email, and password. On successful registration, it returns a JWT authentication token and the created user object.
+### URL
 
----
+```
+POST /users/register
+```
 
-## Request Body
+### Description
 
-Send a JSON object with the following structure:
+Registers a new user and returns an authentication token with user details.
+
+### Request Body
 
 ```json
 {
@@ -27,22 +27,16 @@ Send a JSON object with the following structure:
 }
 ```
 
-### Field Requirements
+### Required Fields
 
-| Field                | Type   | Required | Validation                                      |
-|----------------------|--------|----------|-------------------------------------------------|
-| fullname.firstname   | String | Yes      | Minimum 3 characters                            |
-| fullname.lastname    | String | No       | Minimum 3 characters (if provided)              |
-| email                | String | Yes      | Must be a valid email address                   |
-| password             | String | Yes      | Minimum 6 characters                            |
+- `fullname.firstname` (string, required, min 3 chars)
+- `fullname.lastname` (string, optional, min 3 chars if provided)
+- `email` (string, required, must be valid email)
+- `password` (string, required, min 6 chars)
 
----
+### Success Response
 
-## Responses
-
-### Success
-
-- **Status Code:** `201 Created`
+- **Status:** 201 Created
 - **Body:**
     ```json
     {
@@ -61,7 +55,7 @@ Send a JSON object with the following structure:
 
 ### Validation Error
 
-- **Status Code:** `400 Bad Request`
+- **Status:** 400 Bad Request
 - **Body:**
     ```json
     {
@@ -75,8 +69,161 @@ Send a JSON object with the following structure:
     }
     ```
 
-### Example Request
+---
 
+## Login User
+
+### URL
+
+```
+POST /users/login
+```
+
+### Description
+
+Authenticates a user with email and password. Returns a JWT token and user details if credentials are valid.
+
+### Request Body
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "yourpassword"
+}
+```
+
+### Required Fields
+
+- `email` (string, required, must be valid email)
+- `password` (string, required, min 6 chars)
+
+### Success Response
+
+- **Status:** 200 OK
+- **Body:**
+    ```json
+    {
+      "token": "jwt_token_here",
+      "user": {
+        "_id": "user_id_here",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "socketId": null
+      }
+    }
+    ```
+
+### Error Responses
+
+- **Status:** 400 Bad Request (Validation error)
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Error message here",
+          "param": "field_name",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+- **Status:** 401 Unauthorized (Invalid credentials)
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+
+---
+
+## Get User Profile
+
+### URL
+
+```
+GET /users/profile
+```
+
+### Description
+
+Returns the authenticated user's profile information.  
+**Requires Authorization:** Bearer token in the `Authorization` header or `token` cookie.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token_here>`
+
+### Success Response
+
+- **Status:** 200 OK
+- **Body:**
+    ```json
+    {
+      "_id": "user_id_here",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com",
+      "socketId": null
+    }
+    ```
+
+### Error Response
+
+- **Status:** 401 Unauthorized
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+---
+
+## Logout User
+
+### URL
+
+```
+GET /users/logout
+```
+
+### Description
+
+Logs out the authenticated user by blacklisting the current JWT token and clearing the cookie.  
+**Requires Authorization:** Bearer token in the `Authorization` header or `token` cookie.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token_here>`
+
+### Success Response
+
+- **Status:** 200 OK
+- **Body:**
+    ```json
+    {
+      "message": "Logged out successfully"
+    }
+    ```
+
+### Error Response
+
+- **Status:** 401 Unauthorized
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+---
+
+## Example cURL
+
+**Register:**
 ```bash
 curl -X POST http://localhost:PORT/users/register \
   -H "Content-Type: application/json" \
@@ -90,9 +237,32 @@ curl -X POST http://localhost:PORT/users/register \
   }'
 ```
 
+**Login:**
+```bash
+curl -X POST http://localhost:PORT/users/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@example.com",
+    "password": "yourpassword"
+  }'
+```
+
+**Get Profile:**
+```bash
+curl -X GET http://localhost:PORT/users/profile \
+  -H "Authorization: Bearer <jwt_token_here>"
+```
+
+**Logout:**
+```bash
+curl -X GET http://localhost:PORT/users/logout \
+  -H "Authorization: Bearer <jwt_token_here>"
+```
+
 ---
 
 ## Notes
 
-- The `token` returned should be used for authenticated requests.
-- All fields must be sent in the request body as JSON.
+- Use the returned `token` for authenticated requests.
+- All fields must be sent as JSON in the request body.
+- Protected endpoints require a valid JWT token.
