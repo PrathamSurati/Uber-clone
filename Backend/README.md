@@ -483,7 +483,7 @@ Logs out the authenticated user by blacklisting the current JWT token and cleari
 
 ---
 
-## Example cURL
+## Example cURL : using this we can make req to server from terminal
 
 **Register:**
 ```bash
@@ -526,6 +526,7 @@ curl -X GET http://localhost:PORT/users/logout \
 ---
 # Captain API Documentation
 
+---
 
 ## Register Captain
 
@@ -537,7 +538,7 @@ POST /captain/register
 
 ### Description
 
-Registers a new captain (driver) with vehicle details and returns the created captain object.
+Registers a new captain (driver) with vehicle details and returns the created captain object and authentication token.
 
 ### Request Body
 
@@ -575,24 +576,27 @@ Registers a new captain (driver) with vehicle details and returns the created ca
 - **Body:**
     ```json
     {
-      "_id": "captain_id_here",
-      "fullname": {
-        "firstname": "Alice",
-        "lastname": "Smith"
+      "captain": {
+        "_id": "captain_id_here",
+        "fullname": {
+          "firstname": "Alice",
+          "lastname": "Smith"
+        },
+        "email": "alice.smith@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plate": "ABC123",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "status": "inactive",
+        "socketId": null,
+        "location": {
+          "lat": null,
+          "lng": null
+        }
       },
-      "email": "alice.smith@example.com",
-      "vehicle": {
-        "color": "Red",
-        "plate": "ABC123",
-        "capacity": 4,
-        "vehicleType": "car"
-      },
-      "status": "inactive",
-      "socketId": null,
-      "location": {
-        "lat": null,
-        "lng": null
-      }
+      "token": "jwt_token_here"
     }
     ```
 
@@ -614,7 +618,181 @@ Registers a new captain (driver) with vehicle details and returns the created ca
 
 ---
 
-## Example cURL
+## Login Captain
+
+### URL
+
+```
+POST /captain/login
+```
+
+### Description
+
+Authenticates a captain with email and password. Returns a JWT token and captain details if credentials are valid.
+
+### Request Body
+
+```json
+{
+  "email": "alice.smith@example.com",
+  "password": "yourpassword"
+}
+```
+
+### Required Fields
+
+- `email` (string, required, must be valid email)
+- `password` (string, required, min 6 chars)
+
+### Success Response
+
+- **Status:** 200 OK
+- **Body:**
+    ```json
+    {
+      "token": "jwt_token_here",
+      "captain": {
+        "_id": "captain_id_here",
+        "fullname": {
+          "firstname": "Alice",
+          "lastname": "Smith"
+        },
+        "email": "alice.smith@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plate": "ABC123",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "status": "inactive",
+        "socketId": null,
+        "location": {
+          "lat": null,
+          "lng": null
+        }
+      }
+    }
+    ```
+
+### Error Responses
+
+- **Status:** 400 Bad Request (Validation error)
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Error message here",
+          "param": "field_name",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+- **Status:** 401 Unauthorized (Invalid credentials)
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+
+---
+
+## Get Captain Profile
+
+### URL
+
+```
+GET /captain/profile
+```
+
+### Description
+
+Returns the authenticated captain's profile information.  
+**Requires Authorization:** Bearer token in the `Authorization` header or `token` cookie.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token_here>`
+
+### Success Response
+
+- **Status:** 200 OK
+- **Body:**
+    ```json
+    {
+      "captain": {
+        "_id": "captain_id_here",
+        "fullname": {
+          "firstname": "Alice",
+          "lastname": "Smith"
+        },
+        "email": "alice.smith@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plate": "ABC123",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "status": "inactive",
+        "socketId": null,
+        "location": {
+          "lat": null,
+          "lng": null
+        }
+      }
+    }
+    ```
+
+### Error Response
+
+- **Status:** 401 Unauthorized
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+---
+
+## Logout Captain
+
+### URL
+
+```
+GET /captain/logout
+```
+
+### Description
+
+Logs out the authenticated captain by blacklisting the current JWT token and clearing the cookie.  
+**Requires Authorization:** Bearer token in the `Authorization` header or `token` cookie.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token_here>`
+
+### Success Response
+
+- **Status:** 200 OK
+- **Body:**
+    ```json
+    {
+      "message": "Logged out successfully"
+    }
+    ```
+
+### Error Response
+
+- **Status:** 401 Unauthorized
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+---
+
+## Example cURL : using this we can make req to server from terminal
 
 **Register Captain:**
 ```bash
@@ -636,10 +814,32 @@ curl -X POST http://localhost:PORT/captain/register \
   }'
 ```
 
+**Login Captain:**
+```bash
+curl -X POST http://localhost:PORT/captain/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alice.smith@example.com",
+    "password": "yourpassword"
+  }'
+```
+
+**Get Captain Profile:**
+```bash
+curl -X GET http://localhost:PORT/captain/profile \
+  -H "Authorization: Bearer <jwt_token_here>"
+```
+
+**Logout Captain:**
+```bash
+curl -X GET http://localhost:PORT/captain/logout \
+  -H "Authorization: Bearer <jwt_token_here>"
+```
+
 ---
 
 ## Notes
 
 - All fields must be sent as JSON in the request body.
+- Protected endpoints require a valid JWT token.
 - Validation errors will be returned if any required field is missing or invalid.
-- Additional endpoints (login, profile, etc.) can be documented similarly if implemented.
