@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import UserLogin from './pages/userLogin'
-import CaptainLogin from './pages/captainLogin'
-import UserSignup from './pages/userSignUp'
-import CaptainSignup from './pages/captainSignup'
+import UserLogin from './pages/UserLogin'
+import CaptainLogin from './pages/CaptainLogin'
+import UserSignup from './pages/UserSignUp'
+import CaptainSignup from './pages/CaptainSignup'
 
 const App = () => {
   return (

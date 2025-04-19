@@ -18,19 +18,18 @@ const CaptainLogin = () => {
     setPassword("");
   };
   return (
-    <div>
       <div className="p-7 h-screen flex flex-col justify-between ">
         <div>
           <form action="" onSubmit={submitHandler}>
             <img
               className="w-16 mb-5"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Uber_logo_2018.png/1200px-Uber_logo_2018.png"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSVCO4w_adxK32rCXFeKq3_NbLcR9b_js14w&s"
               alt=""
             />
 
             <h3 className="text-lg font-medium mb-2">Enter Email</h3>
             <input
-              className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+              className="bg-[#eeeeee] mb-5 rounded px-4 py-2  w-full text-lg placeholder:text-base"
               required
               value={email}
               onChange={(e) => {
@@ -42,7 +41,7 @@ const CaptainLogin = () => {
 
             <h3 className="text-lg font-medium mb-2">Enter Password</h3>
             <input
-              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+              className="bg-[#eeeeee] mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base"
               required
               value={password}
               onChange={(e) => {
@@ -69,7 +68,7 @@ const CaptainLogin = () => {
         </div>
         <div>
           <Link
-            to="/captain-login"
+            to="/login"
             className="bg-[orange] flex items-center justify-center text-white font-semibold mt-5 rounded px-4 py-2 w-full text-lg placeholder:text-base"
             type="submit"
           >
@@ -77,7 +76,6 @@ const CaptainLogin = () => {
           </Link>
         </div>
       </div>
-    </div>
   );
 };
 
