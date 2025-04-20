@@ -14,7 +14,7 @@ const VehiclePanel = (props) => {
       <h3 className="text-2xl font-semibold mb-5">Choose a vehicle</h3>
       <div
         onClick={() => {
-          props.setVehiclePanel(true);
+          props.setConfirmRidePanel(true);
         }}
         className="w-full p-3 mb-2 flex justify-between items-center rounded-xl bg-gray-100  active:border-2 border-black"
       >
@@ -27,7 +27,7 @@ const VehiclePanel = (props) => {
           <h4 className="font-medium text-base ">
             UberGo{" "}
             <span>
-              <i class="ri-user-3-fill"></i>4
+              <i className="ri-user-3-fill"></i>4
             </span>
           </h4>
           <h5 className="font-medium text-sm ">5 min away</h5>
@@ -39,7 +39,7 @@ const VehiclePanel = (props) => {
       </div>
       <div
         onClick={() => {
-          props.setVehiclePanel(true);
+          props.setConfirmRidePanel(true);
         }}
         className="w-full p-3 mb-2 flex justify-between items-center rounded-xl bg-gray-100  active:border-2 border-black"
       >
@@ -52,7 +52,7 @@ const VehiclePanel = (props) => {
           <h4 className="font-medium text-base ">
             Auto{" "}
             <span>
-              <i class="ri-user-3-fill"></i>3
+              <i className="ri-user-3-fill"></i>3
             </span>
           </h4>
           <h5 className="font-medium text-sm ">2 min away</h5>
@@ -64,7 +64,7 @@ const VehiclePanel = (props) => {
       </div>
       <div
         onClick={() => {
-          props.setVehiclePanel(true);
+          props.setConfirmRidePanel(true);
         }}
         className="w-full p-3 mb-2 flex justify-between items-center rounded-xl bg-gray-100  active:border-2 border-black"
       >
@@ -77,7 +77,7 @@ const VehiclePanel = (props) => {
           <h4 className="font-medium text-base ">
             MotorCycle{" "}
             <span>
-              <i class="ri-user-3-fill"></i>1
+              <i className="ri-user-3-fill"></i>1
             </span>
           </h4>
           <h5 className="font-medium text-sm ">4 min away</h5>
