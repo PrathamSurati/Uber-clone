@@ -7,7 +7,7 @@ const UserLogin = () => {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [captainData, setCaptainData] = useState({});
+  // const [captainData, setCaptainData] = useState({});
 
   const navigate = useNavigate();
   const {user, setUser} = useContext(UserDataContext);
