@@ -15,7 +15,7 @@ const Home = () => {
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false)
   const [vehicleFound, setVehicleFound] = useState(false)
-  const [waitingForDriver, setwaitingForDriver] = useState(false)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
 
   const panelRef = useRef(null);
   const vehiclePanelRef = useRef(null);
@@ -109,13 +109,14 @@ const Home = () => {
         alt=""
       />
       <div className="h-screen w-screen">
-        <img
-          className="h-full w-full object-cover"
+      <img
+          className="fixed h-full w-full object-cover"
           src="https://preview.redd.it/02zsm5dbhct51.jpg?width=640&crop=smart&auto=webp&s=0c9f361f7fafaf6302f9d0f26da323b27bdd856b"
           alt=""
         />
       </div>
       <div className="bg-white flex flex-col justify-end absolute h-screen top-0 w-full">
+      
         <div className="h-[30%] p-5 bg-white relative">
           <h5
             ref={panelCloseRef}
@@ -183,7 +184,7 @@ const Home = () => {
       ref={waitingForDriverRef}
         className="fixed bottom-0 z-10 p-3 bg-white w-full px-3 py-6 pt-12"
       >
-        <WaitingForDriver waitingForDriver = {waitingForDriver} />
+        <WaitingForDriver setWaitingForDriver = {setWaitingForDriver} />
       </div>
     </div>
   );
