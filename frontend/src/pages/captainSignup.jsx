@@ -173,7 +173,7 @@ const CaptainSignup = () => {
         </form>
       </div>
       <div>
-        <p className="text-xs leading-tight">
+        <p className="text-xs leading-tight mt-3">
           By considering, Your consent to get calls, Whatsapp or SMS messages,
           including automated means, from Uber its affiliates to the number
           provided.

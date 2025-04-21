@@ -115,7 +115,7 @@ const Home = () => {
           alt=""
         />
       </div>
-      <div className="bg-white flex flex-col justify-end absolute h-screen top-0 w-full">
+      <div className="flex flex-col justify-end absolute h-screen top-0 w-full">
       
         <div className="h-[30%] p-5 bg-white relative">
           <h5
