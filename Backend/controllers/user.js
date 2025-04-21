@@ -1,5 +1,5 @@
 const userModel = require('../models/user');
-const userService = require('../services/userService');
+const userService = require('../services/user.service');
 const {validationResult} = require('express-validator');
 const blackListTokenModel = require('../models/blackListToken');
 
