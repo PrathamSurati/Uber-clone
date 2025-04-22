@@ -9,7 +9,7 @@ import ConfirmRide from "../components/ConfirmRide";
 import WaitingForDriver from "../components/WaitingForDriver";
 import LookingForDriver from "../components/LookingForDriver";
 import { SocketContext } from '../context/SocketContext';
- import { useContext } from 'react';
+import { useContext } from 'react';
 import {UserDataContext} from '../context/UserContext';
 
 
@@ -36,6 +36,7 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  const [ ride, setRide ] = useState(null)
 
   // const {sendMessage , receiveMessage} = useContext(SocketContext);
   const {user} = useContext(UserDataContext);
@@ -45,7 +46,11 @@ const Home = () => {
     socket.emit("join", { userType: "user", userId: user._id })
 }, [ user ])
   
-
+socket.on('ride-confirmed', ride => {
+  setVehicleFound(false)
+  setWaitingForDriver(true)
+  setRide(ride)
+})
 
 
 
@@ -310,7 +315,11 @@ const Home = () => {
         ref={waitingForDriverRef}
         className="fixed bottom-0 z-10 p-3 bg-white w-full px-3 py-6 pt-12"
       >
-        <WaitingForDriver waitingForDriver={waitingForDriver} />
+        <WaitingForDriver
+                     ride={ride}
+                     setVehicleFound={setVehicleFound}
+                     setWaitingForDriver={setWaitingForDriver}
+                     waitingForDriver={waitingForDriver} />
       </div>
     </div>
   );
