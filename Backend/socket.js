@@ -19,7 +19,6 @@ const socketIo = require('socket.io');
          socket.on('join', async (data) => {
              const { userId, userType } = data;
 
-             console.log(`User ${userId} joined as ${userType}`);
  
              if (userType === 'user') {
                  await userModel.findByIdAndUpdate(userId, { socketId: socket.id });
@@ -53,7 +52,7 @@ const socketIo = require('socket.io');
 
     const sendMessageToSocketId = (socketId, messageObject) => {
  
-        console.log(`Sending message to ${socketId}`, messageObject);
+        console.log(messageObject);
 
      if (io) {
         io.to(socketId).emit(messageObject.event, messageObject.data);

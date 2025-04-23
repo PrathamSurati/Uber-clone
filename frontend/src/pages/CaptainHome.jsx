@@ -53,10 +53,24 @@ const CaptainHome = () => {
     setRidePopupPanel(true);
   });
 
+  // useEffect(() => {
+  //   const handleNewRide = (data) => {
+  //     console.log(data);
+  //     setRide(data);
+  //     setRidePopupPanel(true);
+  //   };
+  
+  //   socket.on("new-ride", handleNewRide);
+  
+  //   return () => {
+  //     socket.off("new-ride", handleNewRide);
+  //   };
+  // }, [socket]);
+
 
   async function confirmRide() {
  
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+    await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
 
         rideId: ride._id,
         captainId: captain._id,
@@ -139,10 +153,9 @@ const CaptainHome = () => {
         ref={confirmRidePopupPanelRef}
         className="fixed bottom-0 z-10 p-3 bg-white w-full h-screen px-3 py-10 pt-12 translate-y-full"
       >
-        <ConfirmRidePopup
-          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-          setRidePopupPanel={setRidePopupPanel}
-        />
+        <ConfirmRidePopUp
+                     ride={ride}
+                     setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
       </div>
     </div>
   );
